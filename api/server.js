@@ -17,6 +17,13 @@ server.put('/api/users/:id', (req, res) => {
                     }
                 }
             })
+            .catch(err => {
+                res.status(500).json({ 
+                    message: 'The user information could not be modified',
+                    err: err.message,
+                    stack: err.stack,
+                })
+            })
     })
 
 server.delete('/api/users/:id', (req, res) => {
