@@ -3,6 +3,22 @@ const User = require('./users/model');
 const server = express()
 server.use(express.json())
 
+server.put('/api/users/:id', (req, res) => {
+    const changes = req.body;
+        User.update(req.params.id, changes)
+            .then(updated => {
+                if (!updated) {
+                    res.status(404).json({ message: 'The user with the specified ID does not exist' })
+                } else {
+                    if (!changes.name || !changes.bio) {
+                        res.status(400).json({ message: 'Please provide name and bio for the user' })
+                    } else {
+                        res.json(updated)
+                    }
+                }
+            })
+    })
+
 server.delete('/api/users/:id', (req, res) => {
     User.remove(req.params.id)
         .then(deleted => {
