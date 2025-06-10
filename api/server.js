@@ -9,8 +9,8 @@ server.post('/api/users', (req, res) => {
         res.status(400).json({ message: 'Please provide name and bio for the user' })
     } else {
         User.insert(user)
-            .then(user => {
-                res.status(201).json(user)
+            .then(newUser => {
+                res.status(201).json(newUser)
             })
             .catch(err => {
                 res.status(500).json({ 
