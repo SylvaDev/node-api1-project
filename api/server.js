@@ -16,6 +16,20 @@ server.get('/api/users', (req, res) => {
         })
 })
 
+server.get('/api/users/:id', (req, res) => {
+    User.findById(req.params.id)
+        .then(user => {
+            res.json(user)
+        })
+        .catch(err => {
+            res.status(500).json({ 
+                message: 'Error fetching user',
+                err: err.message,
+                stack: err.stack,
+            })
+        })
+})
+
 
 
 
