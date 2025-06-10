@@ -1,7 +1,9 @@
 const express = require('express');
 const User = require('./users/model');
-const server = express()
-server.use(express.json())
+const cors = require('cors');
+const server = express();
+server.use(express.json());
+server.use(cors());
 
 server.put('/api/users/:id', (req, res) => {
     const changes = req.body;
