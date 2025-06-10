@@ -1,9 +1,26 @@
-// BUILD YOUR SERVER HERE
 const express = require('express');
+const User = require('./users/model');
 const server = express();
 
-server.use('/api/users', (req, res) => {
-    res.status(404).json({ message: 'not found' })
+server.get('/api/users', (req, res) => {
+    User.find()
+        .then(users => {
+            res.json(users)
+        })
+        .catch(err => {
+            res.status(500).json({ 
+                message: 'Error fetching users',
+                err: err.message,
+                stack: err.stack,
+            })
+        })
 })
 
-module.exports = server; // EXPORT YOUR SERVER instead of {}
+
+
+
+server.use('', (req, res) => {
+    res.status(404).json({ message: 'not found' });
+})
+
+module.exports = server; 
