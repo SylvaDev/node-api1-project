@@ -3,6 +3,24 @@ const User = require('./users/model');
 const server = express()
 server.use(express.json())
 
+server.delete('/api/users/:id', (req, res) => {
+    User.remove(req.params.id)
+        .then(deleted => {
+            if (!deleted) {
+                res.status(404).json({ message: 'The user with the specified ID does not exist' })
+            } else {
+                res.json(deleted)
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ 
+                message: 'The user could not be removed',
+                err: err.message,
+                stack: err.stack,
+            })
+        })
+})
+
 server.post('/api/users', (req, res) => {
     const user = req.body;
     if (!user.name || !user.bio) {
@@ -53,10 +71,6 @@ server.get('/api/users/:id', (req, res) => {
             })
         })
 })
-
-
-
-
 
 server.use('', (req, res) => {
     res.status(404).json({ message: 'not found' });
